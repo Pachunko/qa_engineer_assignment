@@ -2,6 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 
 var skipTourLocator = 'text=Skip Tour'
 
+// testing changes
+
 var testData = [
     'Adele Vance',
     'Alex Wilber',
