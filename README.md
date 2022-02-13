@@ -21,7 +21,7 @@
   - runs all tests in headed mode and only in chromium browser engine (use any supported web engine you wish to run in '--project=' parameter)
 
 ## REPORTERS
-- after all tests are run hmtl report is opened in browser automatically along with failure stack trace (report website data is stored in 'playwright-report' folder)
+- after all tests are run HTML report is opened in browser automatically along with failure stack trace (report website data is stored in 'playwright-report' folder)
 - the test run report is also displayed in terminal
 - reporters are configured in 'playwright.config.ts -> reporters: '
 - `npx playwright show-report` opens last HMTL report run in default browser
