@@ -24,3 +24,4 @@
 - after all tests are run hmtl report is opened in browser automatically along with failure stack trace (report website data is stored in 'playwright-report' folder)
 - the test run report is also displayed in terminal
 - reporters are configured in 'playwright.config.ts -> reporters: '
+- `npx playwright show-report` opens last HMTL report run in default browser
