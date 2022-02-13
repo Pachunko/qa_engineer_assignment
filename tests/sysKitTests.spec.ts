@@ -1,6 +1,7 @@
 import { test, expect, Page } from '@playwright/test';
 
 var skipTourLocator = 'text=Skip Tour'
+var usersModuleLocator ='data-testid=users'
 
 var testData = [
     'Adele Vance',
@@ -62,8 +63,12 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('cannot delete user due to privileges', async ({ page }) => {
+
     const checkboxLocator = '.dx-checkbox-icon >> nth=2'
     const confirmDeleteLocator = `//button[contains(@class, 'button primary')]`
+
+    // waits for users module button to be visible
+    await page.waitForSelector(usersModuleLocator, {timeout: 5000});
     
     // clicks on users module
     await page.locator('data-testid=users').click();
@@ -85,7 +90,7 @@ test('cannot delete user due to privileges', async ({ page }) => {
     await deleteUserAction.click();
     
     // wait for confirm button element to be visible
-    await page.waitForSelector(confirmDeleteLocator, {timeout: 5000})
+    await page.waitForSelector(confirmDeleteLocator, {timeout: 5000});
     
     // confirm delete action in pop-up window
     await page.locator(confirmDeleteLocator).click();
@@ -104,13 +109,16 @@ test('cannot delete user due to privileges', async ({ page }) => {
     // validate error message (insufficient privileges)
     await expect (page.locator('.status-text')).toContainText('Insufficient privileges to complete the operation.')
 
-    console.log("Status message for action is correct, TEST PASSED.")
+    console.log("Status message for action is correct, TEST PASSED.");
 })
 
 // parametrized test, one test per each unique data entry (name) is run
-// loops through the 'testData' array and runs a test per each item
+// loops through the 'testData' array and runs a test for each item
 for (const name of testData) {
     test(`searching for ${name} in users module`, async ({ page }) => {
+        
+        // waits for users module button to be visible
+        await page.waitForSelector(usersModuleLocator, {timeout: 5000});
         
         // clicks on user module
         await page.locator('data-testid=users').click();
@@ -127,6 +135,6 @@ for (const name of testData) {
         // validate user is displayed after searching
         expect (page.locator(`text=${name}`));
 
-        console.log(`Correct user "${name}" displayed, TEST PASSED.`)
+        console.log(`Correct user "${name}" displayed, TEST PASSED.`);
     });
 }
