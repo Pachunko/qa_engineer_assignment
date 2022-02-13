@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const test_1 = require("@playwright/test");
 var skipTourLocator = 'text=Skip Tour';
+var usersModuleLocator = 'data-testid=users';
 var testData = [
     'Adele Vance',
     'Alex Wilber',
@@ -56,9 +57,11 @@ test_1.test.beforeEach(async ({ page }) => {
     await page.locator('id=idBtn_Back').click();
     console.log("Logged in successfully.");
 });
-(0, test_1.test)('cannnot delete user due to privileges', async ({ page }) => {
+(0, test_1.test)('cannot delete user due to privileges', async ({ page }) => {
     const checkboxLocator = '.dx-checkbox-icon >> nth=2';
     const confirmDeleteLocator = `//button[contains(@class, 'button primary')]`;
+    // waits for users module button to be visible
+    await page.waitForSelector(usersModuleLocator, { timeout: 5000 });
     // clicks on users module
     await page.locator('data-testid=users').click();
     // waits for button element to be visible
@@ -90,19 +93,21 @@ test_1.test.beforeEach(async ({ page }) => {
 });
 // parametrized test, one test per each unique data entry (name) is run
 // loops through the 'testData' array and runs a test per each item
-for (const name of testData) {
-    (0, test_1.test)(`searching for ${name} in users module`, async ({ page }) => {
-        // clicks on user module
-        await page.locator('data-testid=users').click();
-        // waits for button element to be visible
-        await page.waitForSelector(skipTourLocator, { timeout: 5000 });
-        // clicks on "skip tour" button
-        await page.locator(skipTourLocator).click();
-        // enter name from test data in search bar
-        await page.fill('[aria-label="Search\\ in\\ the\\ data\\ grid"]', name);
-        // validate user is displayed after searching
-        (0, test_1.expect)(page.locator(`text=${name}`));
-        console.log(`Correct user: ${name} displayed, TEST PASSED.`);
-    });
-}
+// for (const name of testData) {
+//     test(`searching for ${name} in users module`, async ({ page }) => {
+//         // waits for users module button to be visible
+//         await page.waitForSelector(usersModuleLocator, {timeout: 5000});
+//         // clicks on user module
+//         await page.locator('data-testid=users').click();
+//         // waits for button element to be visible
+//         await page.waitForSelector(skipTourLocator, {timeout:5000});
+//         // clicks on "skip tour" button
+//         await page.locator(skipTourLocator).click();
+//         // enter name from test data in search bar
+//         await page.fill('[aria-label="Search\\ in\\ the\\ data\\ grid"]', name);
+//         // validate user is displayed after searching
+//         expect (page.locator(`text=${name}`));
+//         console.log(`Correct user "${name}" displayed, TEST PASSED.`);
+//     });
+// }
 //# sourceMappingURL=sysKitTests.spec.js.map
